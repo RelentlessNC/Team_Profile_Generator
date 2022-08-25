@@ -1,6 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-const output = require('generate_html.js');
+//const output = require('./generate_html');
 const fs = require('fs');
 
 
@@ -30,9 +30,11 @@ function init() {
         ])
 
     .then((answers) => {
-            fs.writeFile('dist/index.html', output.generateHTML(JSON.stringify(answers)), (err) =>
-                err ? console.log(err) : console.log(`Successfully Created`)
-            );
+        console.log(answers);
+            //fs.writeFile('dist/index.html', output.generateHTML(JSON.stringify(answers)), (err) =>
+                //err ? console.log(err) : console.log(`Successfully Created`)
+            //);
+            nextEmployee();
 
         })
         .catch((error) => {
@@ -42,7 +44,7 @@ function init() {
                 // Something else went wrong
             }
         });
-    nextEmployee();
+    
 }
 
 function nextEmployee() {
@@ -76,6 +78,60 @@ function nextEmployee() {
             }
 
         })
+    }
+
+function addIntern(){
+    inquirer
+    .prompt([{
+        type: 'input',
+        name: 'internName',
+        message: "Intern's name: "
+    },
+    {
+        type: 'input',
+        name: 'internID',
+        message: "Intern's ID #: "
+    },
+    {
+        type: 'input',
+        name: 'internEmail',
+        message: "Intern's email: "
+    },{
+    type: 'input',
+    name: 'internSchool',
+    message: "Intern's school: "
+    }
+])
+    .then((answers) => {
+
+    })
+}
+
+function addEngineer(){
+    inquirer
+    .prompt([{
+        type: 'input',
+        name: 'engineerName',
+        message: "Engineer's name: "
+    },
+    {
+        type: 'input',
+        name: 'engineerID',
+        message: "Engineer's ID #: "
+    },
+    {
+        type: 'input',
+        name: 'engineerEmail',
+        message: "engineer's email: "
+    },{
+    type: 'input',
+    name: 'gitHubUsername',
+    message: "Github Username: "
+    }
+])
+    .then((answers) => {
+
+    })
 }
 
 // function writeFile(fileName, content) {
