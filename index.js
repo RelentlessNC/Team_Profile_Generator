@@ -1,6 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-//const output = require('./generate_html');
+const gen_html = require('./generate_html');
 const fs = require('fs');
 const Intern = require('./lib/intern_class.js');
 const Engineer = require('./lib/engineer_class.js');
@@ -15,12 +15,12 @@ function init() {
     inquirer
         .prompt([{
                 type: 'input',
-                name: 'manager',
+                name: 'managerName',
                 message: "Manager's Name: "
             },
             {
                 type: 'input',
-                name: 'managerID',
+                name: 'managerId',
                 message: "Manager's ID #: "
             },
             {
@@ -36,14 +36,9 @@ function init() {
         ])
 
     .then((answers) => {
-            const { name, id, email, officeNumber } = answers;
-            manager = new Manager(name, id, email, officeNumber);
-            console.log(manager);
-            //fs.writeFile('dist/index.html', output.generateHTML(JSON.stringify(answers)), (err) =>
-            //err ? console.log(err) : console.log(`Successfully Created`)
-            //);
+            const { managerName, managerId, managerEmail, managerOffice } = answers;
+            manager = new Manager(managerName, managerId, managerEmail, managerOffice);
             nextEmployee();
-
         })
         .catch((error) => {
             if (error.isTtyError) {
@@ -84,11 +79,28 @@ function nextEmployee() {
                 nextEmployee();
             } else if (answer.role === 'Engineer') {
                 let e = await addEngineer();
-                //console.log(e);
                 allEngineers.push(e);
                 nextEmployee();
             } else {
+                /*    SEND ALL EMPLOYEE INFO TO HTML*/
                 //console.log(allEngineers, allInterns, manager);
+                gen_html.parseInterns(JSON.stringify(allEngineers));
+                allInterns = JSON.stringify(allInterns);
+                manager = JSON.stringify(manager);
+                //output.generateHTML();
+
+
+                // function writeFile(fileName, content) {
+                //     fs.writeFile('README.md', md.generateMarkdown(JSON.stringify(answers)), (err) =>
+                //         err ? console.log(err) : console.log(`Successfully Created ${fileName}`)
+                //     );
+                // }
+
+                // writeFile("index.html", htmlPageContent);
+                // writeFile("style.css", cssContent);
+                //fs.writeFile('dist/index.html', output.generateHTML(JSON.stringify(answers)), (err) =>
+                //err ? console.log(err) : console.log(`Successfully Created`)
+                //);
             }
         })
         .catch((error) => {
@@ -111,7 +123,7 @@ function addIntern() {
                 },
                 {
                     type: 'input',
-                    name: 'internID',
+                    name: 'internId',
                     message: "Intern's ID #: "
                 },
                 {
@@ -125,8 +137,8 @@ function addIntern() {
                 }
             ])
             .then((answers) => {
-                const { name, id, email, school } = answers;
-                let intern = new Intern(name, id, email, school);
+                const { internName, internId, internEmail, internSchool } = answers;
+                let intern = new Intern(internName, internId, internEmail, internSchool);
                 return intern;
             })
             .catch((err) => {
@@ -148,7 +160,7 @@ function addEngineer() {
                 },
                 {
                     type: 'input',
-                    name: 'engineerID',
+                    name: 'engineerId',
                     message: "Engineer's ID #: "
                 },
                 {
@@ -162,9 +174,9 @@ function addEngineer() {
                 }
             ])
             .then((answers) => { // answers is an object
-                const { name, id, email, gitHubUsername } = answers; // destructure object into constants
-                let engineer = new Engineer(name, id, email, gitHubUsername); // create new engineer with constants from destructured object
-                console.log(engineer);
+                const { engineerName, engineerId, engineerEmail, gitHubUsername } = answers; // destructure object into constants
+                let engineer = new Engineer(engineerName, engineerId, engineerEmail, gitHubUsername); // create new engineer with constants from destructured object
+                return engineer;
             })
             .catch((err) => {
                 console.log(err);
@@ -172,15 +184,6 @@ function addEngineer() {
         )
     })
 }
-
-// function writeFile(fileName, content) {
-//     fs.writeFile('README.md', md.generateMarkdown(JSON.stringify(answers)), (err) =>
-//         err ? console.log(err) : console.log(`Successfully Created ${fileName}`)
-//     );
-// }
-
-// writeFile("index.html", htmlPageContent);
-// writeFile("style.css", cssContent);
 
 // Function call to initialize app
 init();
