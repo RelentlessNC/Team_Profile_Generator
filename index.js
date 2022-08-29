@@ -1,6 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-const gen_html = require('./generate_html');
+const gen_html = require('./generate_html.js');
 const fs = require('fs');
 const Intern = require('./lib/intern_class.js');
 const Engineer = require('./lib/engineer_class.js');
@@ -74,7 +74,6 @@ function nextEmployee() {
         .then(async(answer) => {
             if (answer.role === 'Intern') {
                 let i = await addIntern();
-                //console.log(i);
                 allInterns.push(i);
                 nextEmployee();
             } else if (answer.role === 'Engineer') {
@@ -83,10 +82,9 @@ function nextEmployee() {
                 nextEmployee();
             } else {
                 /*    SEND ALL EMPLOYEE INFO TO HTML*/
-                //console.log(allEngineers, allInterns, manager);
-                gen_html.parseInterns(JSON.stringify(allEngineers));
-                allInterns = JSON.stringify(allInterns);
-                manager = JSON.stringify(manager);
+                gen_html.parseInterns(JSON.stringify(allInterns));
+                gen_html.parseEngineers(JSON.stringify(allEngineers));
+                gen_html.parseManagers(JSON.stringify(manager));
                 //output.generateHTML();
 
 
