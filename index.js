@@ -82,23 +82,7 @@ function nextEmployee() {
                 nextEmployee();
             } else {
                 /*    SEND ALL EMPLOYEE INFO TO HTML*/
-                gen_html.parseInterns(JSON.stringify(allInterns));
-                gen_html.parseEngineers(JSON.stringify(allEngineers));
-                gen_html.parseManagers(JSON.stringify(manager));
-                //output.generateHTML();
-
-
-                // function writeFile(fileName, content) {
-                //     fs.writeFile('README.md', md.generateMarkdown(JSON.stringify(answers)), (err) =>
-                //         err ? console.log(err) : console.log(`Successfully Created ${fileName}`)
-                //     );
-                // }
-
-                // writeFile("index.html", htmlPageContent);
-                // writeFile("style.css", cssContent);
-                //fs.writeFile('dist/index.html', output.generateHTML(JSON.stringify(answers)), (err) =>
-                //err ? console.log(err) : console.log(`Successfully Created`)
-                //);
+                gen_html.init(JSON.stringify(manager), JSON.stringify(allEngineers), JSON.stringify(allInterns));
             }
         })
         .catch((error) => {

@@ -1,57 +1,78 @@
 // TODO: Create a function to generate markdown for README
 const index = require('./index.js');
+const fs = require('fs');
 var allEngineers = [];
 var allInterns = [];
-var allManagers = [];
-var engineerCards = [];
-var internCards = [];
-var managerCards = [];
+var manager;
+var allCards = '';
 
-function parseInterns(interns) {
-    allInterns = JSON.parse(interns);
-    //console.log(allInterns);
-}
-
-function parseEngineers(engineers) {
+async function init(m, engineers, interns) {
+    manager = JSON.parse(m);
     allEngineers = JSON.parse(engineers);
-    //console.log(allEngineers);
+    allInterns = JSON.parse(interns);
+    await managerCard();
+    await parseEngineers();
+    await parseInterns();
+    fs.writeFile('dist/index.html', generateHTML(), (err) => {
+        err ? console.log(err) : console.log(`Successfully Created file`)
+    });
+
+
 }
 
-function parseManagers(manager) {
-    allManagers = JSON.parse(manager);
-    //console.log(allManagers);
-}
-
-function genInternCards(interns) {
-    for (var intern of interns) {
-        internCards.push(`
-<div class="card" style="width: 18rem;">
+async function managerCard() {
+    allCards += `
+        <div class="card" style="width: 18rem;">
   <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">${intern.getName()}</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <h5 class="card-title">${manager.name}<hr>${manager.role}</h5>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
+    <li class="list-group-item">ID: ${manager.id}</li>
+    <li class="list-group-item">Email: ${manager.email}</li>
+    <li class="list-group-item">School: ${manager.officeNumber}</li>
   </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
 </div>
-        `)
+        `;
+}
+
+async function parseEngineers() {
+    for (var engineer of allEngineers) {
+        allCards += `
+      <div class="card" style="width: 18rem;">
+<img class="card-img-top" src="..." alt="Card image cap">
+<div class="card-body">
+  <h5 class="card-title">${engineer.name}<hr>${engineer.role}</h5>
+</div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">ID: ${engineer.id}</li>
+  <li class="list-group-item">Email: ${engineer.email}</li>
+  <li class="list-group-item">School: ${engineer.gitHubUsername}</li>
+</ul>
+</div>
+      `
     }
 }
 
+async function parseInterns() {
+    for (var intern of allInterns) {
+        allCards += `
+        <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">${intern.name}<hr>${intern.role}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">ID: ${intern.id}</li>
+    <li class="list-group-item">Email: ${intern.email}</li>
+    <li class="list-group-item">School: ${intern.school}</li>
+  </ul>
+</div>
+        `
+    }
+}
 
-
-
-function generateHTML(data) {
-    //console.log(allEngineers, allInterns, manager);
-    //const {  } = JSON.parse(data);
-
+function generateHTML() {
     return (`
     <!DOCTYPE html>
 <html>
@@ -62,17 +83,18 @@ function generateHTML(data) {
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="dist/css_reset.css" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="dist/styles.css" type="text/css">
     </head>
-    <body>        
-    ${internCards}
-        <script src=""></script>
+    <body>
+    ${allCards}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>
 `);
 }
 
-module.exports = { generateHTML, parseInterns, parseEngineers, parseManagers };
+module.exports = { generateHTML, init };
 
 /*
 So you'll have a function that will do the backbone of the html, right? 
