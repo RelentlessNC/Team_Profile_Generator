@@ -82,7 +82,7 @@ function nextEmployee() {
                 nextEmployee();
             } else {
                 /*    SEND ALL EMPLOYEE INFO TO HTML*/
-                gen_html.init(JSON.stringify(manager), JSON.stringify(allEngineers), JSON.stringify(allInterns));
+                gen_html.init(manager, allEngineers, allInterns);
             }
         })
         .catch((error) => {

@@ -7,9 +7,9 @@ var manager;
 var allCards = '';
 
 async function init(m, engineers, interns) {
-    manager = JSON.parse(m);
-    allEngineers = JSON.parse(engineers);
-    allInterns = JSON.parse(interns);
+    manager = m;
+    allEngineers = engineers;
+    allInterns = interns;
     await managerCard();
     await parseEngineers();
     await parseInterns();
@@ -21,16 +21,16 @@ async function init(m, engineers, interns) {
 }
 
 async function managerCard() {
+
     allCards += `
         <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">${manager.name}<hr>${manager.role}</h5>
+    <h5 class="card-title">${manager.name}<hr>Role: ${manager.getRole()}</h5>
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${manager.id}</li>
     <li class="list-group-item">Email: ${manager.email}</li>
-    <li class="list-group-item">School: ${manager.officeNumber}</li>
+    <li class="list-group-item">Office Number: ${manager.getOfficeNumber()}</li>
   </ul>
 </div>
         `;
@@ -40,14 +40,13 @@ async function parseEngineers() {
     for (var engineer of allEngineers) {
         allCards += `
       <div class="card" style="width: 18rem;">
-<img class="card-img-top" src="..." alt="Card image cap">
 <div class="card-body">
-  <h5 class="card-title">${engineer.name}<hr>${engineer.role}</h5>
+  <h5 class="card-title">${engineer.name}<hr>${engineer.getRole()}</h5>
 </div>
 <ul class="list-group list-group-flush">
   <li class="list-group-item">ID: ${engineer.id}</li>
   <li class="list-group-item">Email: ${engineer.email}</li>
-  <li class="list-group-item">School: ${engineer.gitHubUsername}</li>
+  <li class="list-group-item">GitHub Username: ${engineer.getGithub()}</li>
 </ul>
 </div>
       `
@@ -58,14 +57,13 @@ async function parseInterns() {
     for (var intern of allInterns) {
         allCards += `
         <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">${intern.name}<hr>${intern.role}</h5>
+    <h5 class="card-title">${intern.name}<hr>${intern.getRole()}</h5>
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${intern.id}</li>
     <li class="list-group-item">Email: ${intern.email}</li>
-    <li class="list-group-item">School: ${intern.school}</li>
+    <li class="list-group-item">School: ${intern.getSchool()}</li>
   </ul>
 </div>
         `
@@ -88,7 +86,9 @@ function generateHTML() {
     </head>
     <body>
     ${allCards}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>
 `);
