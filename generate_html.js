@@ -29,7 +29,7 @@ async function managerCard() {
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${manager.id}</li>
-    <li class="list-group-item">Email: ${manager.email}</li>
+    <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.mail}</a></li>
     <li class="list-group-item">Office Number: ${manager.getOfficeNumber()}</li>
   </ul>
 </div>
@@ -45,8 +45,8 @@ async function parseEngineers() {
 </div>
 <ul class="list-group list-group-flush">
   <li class="list-group-item">ID: ${engineer.id}</li>
-  <li class="list-group-item">Email: ${engineer.email}</li>
-  <li class="list-group-item">GitHub Username: ${engineer.getGithub()}</li>
+  <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.mail}</a></li>
+  <li class="list-group-item">GitHub Username: <a href="https://github.com/${engineer.getGithub()}/">${engineer.getGithub()}</a></li>
 </ul>
 </div>
       `
@@ -62,7 +62,7 @@ async function parseInterns() {
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">ID: ${intern.id}</li>
-    <li class="list-group-item">Email: ${intern.email}</li>
+    <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.mail}</a></li>
     <li class="list-group-item">School: ${intern.getSchool()}</li>
   </ul>
 </div>
